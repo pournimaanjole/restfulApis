@@ -8,7 +8,9 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000
 
 // import booking model
+// import bus model
 import Booking from './models/booking.js'
+import Bus from './models/bus.js';
 
 // mongodb connection 
 
@@ -121,6 +123,53 @@ await Booking.deleteOne({_id:_id})
 res.json({
     sucess:true,
     message:"booking deleted sucessfully"
+})
+})
+
+
+// creating post reqest for bus
+
+app.post("/api/v1/buses" , async(req,res)=>{
+const {busName,busNumber,busPrice} = req.body
+const bus = new Bus({
+   busName,busNumber,busPrice 
+})
+try{
+    const savebus = await Bus.save();
+    res.json({
+        sucess:true,
+        data:savebus,
+        message:"save bus data sucessfully"
+    })
+}
+catch(e){
+    res.json({
+        sucess:false,
+    message:e.message
+    })
+}
+
+})
+
+// creating get reqest for bus
+
+app.get("/api/v1/buses" , async(req,res)=>{
+const findbus = await Bus.find()
+res.json({
+    sucess:true,
+    data:findbus,
+    message:"buses find sucessfully"
+})
+})
+
+// creating delete reqest for bus
+
+app.delete("/api/v1/buses/:_id" , async(req,res) =>{
+const {_id} = req.params
+await Bus.deleteOne({_id:_id})
+res.json({
+    sucess:true,
+    message:"bus data delete sucessfully"
 })
 })
 
