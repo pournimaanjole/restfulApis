@@ -135,7 +135,7 @@ const bus = new Bus({
    busName,busNumber,busPrice 
 })
 try{
-    const savebus = await Bus.save();
+    const savebus = await bus.save();
     res.json({
         sucess:true,
         data:savebus,
